@@ -32,41 +32,31 @@
 
     <div class="container">
         <h2>Time Difference</h2>
-        <div id="result" class="time-diff">Calculating...</div>
+        <div id="result" class="time-diff">Enter a date in the URL: ?date=DDMMYYYY</div>
     </div>
 
     <script>
-        function getDateFromURL() {
-            const path = window.location.pathname.substring(1); // Remove leading "/"
-            
-            if (!/^\d{8}$/.test(path)) {
-                showError("I love puzzles too! But I need numbers in DDMMYYYY format.");
+        function getDateFromQuery() {
+            const params = new URLSearchParams(window.location.search);
+            const dateStr = params.get("date");
+
+            if (!/^\d{8}$/.test(dateStr)) {
+                showError("Oops! Enter a date like ?date=DDMMYYYY.");
                 return null;
             }
 
-            let day = parseInt(path.substring(0, 2));
-            let month = parseInt(path.substring(2, 4)) - 1; // JS months are 0-based
-            let year = parseInt(path.substring(4, 8));
+            let day = parseInt(dateStr.substring(0, 2));
+            let month = parseInt(dateStr.substring(2, 4)) - 1;
+            let year = parseInt(dateStr.substring(4, 8));
 
             let date = new Date(year, month, day);
 
-            // Validate day, month, and year match the input
             if (date.getDate() !== day || date.getMonth() !== month || date.getFullYear() !== year) {
-                let errorMsg = getWittyError(day, month + 1, year);
-                showError(errorMsg);
+                showError("Hmm... that date seems off! Try again: ?date=DDMMYYYY.");
                 return null;
             }
 
             return date;
-        }
-
-        function getWittyError(day, month, year) {
-            if (day > 31) return `Whoa! ${day} days? No month has that many! Try again: DDMMYYYY.`;
-            if (month > 12) return `Hmm... I think you've discovered a secret month (${month})! Sadly, the world has only 12.`;
-            if (day === 0) return `Time travelers detected! Days start at 01, not 00. Try again.`;
-            if (month === 0) return `Even space-time needs rules! Months start at 01, not 00. Try again.`;
-            if (month === 2 && day === 29 && year % 4 !== 0) return `Nice try! But ${year} wasn't a leap year. Maybe aim for 2024?`;
-            return "This date seems... unreal. Double-check and try again!";
         }
 
         function showError(message) {
@@ -74,7 +64,7 @@
         }
 
         function updateTimeDifference() {
-            let inputDate = getDateFromURL();
+            let inputDate = getDateFromQuery();
             if (!inputDate) return;
 
             function calculateDifference() {
@@ -105,7 +95,7 @@
             }
 
             calculateDifference();
-            setInterval(calculateDifference, 1000); // Update every second
+            setInterval(calculateDifference, 1000);
         }
 
         updateTimeDifference();
