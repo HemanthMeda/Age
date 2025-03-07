@@ -45,8 +45,8 @@
                 return null;
             }
 
-            let month = parseInt(dateStr.substring(0, 2));
-            let day = parseInt(dateStr.substring(2, 4)) - 1;
+            let month = parseInt(dateStr.substring(0, 2)) - 1;
+            let day = parseInt(dateStr.substring(2, 4));
             let year = parseInt(dateStr.substring(4, 8));
 
      <!--   let date = new Date(year, month, day); -->
@@ -86,6 +86,7 @@
                 let years = Math.floor(diffSeconds / (365 * 86400));
 
                 document.getElementById("result").innerHTML = `
+                    ${date} Parsed Date<br>
                     ${years} Years<br>
                     ${months} Months<br>
                     ${days} Days<br>
