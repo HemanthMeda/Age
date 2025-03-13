@@ -26,16 +26,72 @@
             font-weight: bold;
             margin: 10px;
         }
+        .progress-container {   
+            width: 100%; 
+            height: 10px;  
+            background-color: #ddd; 
+            border-radius: 5px; 
+            overflow: hidden;
+            margin-top: 15px;
+        }
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #4caf50; 
+            transition: width 1s linear;
+        }
+        #progress-text {
+            margin-top: 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }        
     </style>
 </head>
 <body>
 
     <div class="container">
-    <!--    <h2>Time Difference</h2> -->
         <div id="result" class="time-diff">Enter a date in the URL: ?date=DDMMYYYY</div>
+        <!-- Day Progress Bar -->
+        <div class="progress-container">
+            <div id="progress-bar"></div> 
+        </div>
+        <div id="progress-text">Loading...</div>
     </div>
 
+    <audio id="tick-sound"> 
+        <source src="tick.mp3" type="audio/mpeg">
+    </audio>
+    
     <script>
+        function playTickSound() {
+            let tickSound = document.getElementById("tick-sound");
+            tickSound.currentTime = 0; // Reset sound to start
+            tickSound.play().catch(error => console.log("Sound playback error:", error));
+        }   
+        // Play ticking sound every second
+        setInterval(playTickSound, 1000);
+     
+        function updateDayProgress() {
+            let now = new Date();
+            let secondsPassed = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+            let totalSecondsInDay = 24 * 3600;
+    
+            let percentagePassed = (secondsPassed / totalSecondsInDay) * 100;
+            let percentageLeft = 100 - percentagePassed;
+    
+            // Update the progress bar width
+            document.getElementById("progress-bar").style.width = percentagePassed + "%";
+   
+            // Update the text to show remaining percentage   
+            document.getElementById("progress-text").innerText = `${percentageLeft.toFixed(2)}% of the day left`;
+
+        }
+
+        // Update every second
+        setInterval(updateDayProgress, 1000);
+        updateDayProgress(); // Run once on page load
+
+        
         function getDateFromQuery() {
             const params = new URLSearchParams(window.location.search);
             const dateStr = params.get("date");
