@@ -87,8 +87,14 @@
                 let minutes = now.getMinutes();
                 let seconds = now.getSeconds();
 
+                // Calculate total days difference
+                let totalDaysDiff = Math.floor((now - inputDate) / (1000 * 60 * 60 * 24));
+                let weeks = Math.floor(totalDaysDiff / 7);
+                let extraDays = totalDaysDiff % 7;
+
                 document.getElementById("result").innerHTML = `
                     ${years} Years<br>
+                    (${weeks} Weeks and ${extraDays} Days)<br>
                     ${months} Months<br>
                     ${days} Days<br>
                     ${hours} Hours<br>
