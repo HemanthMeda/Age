@@ -63,6 +63,75 @@ function showRandomMotivation() {
     document.getElementById("motivation-message").innerText = message;
 }
 
+function getDateFromQuery() {
+    const params = new URLSearchParams(window.location.search);
+    const dateStr = params.get("date");
+    if (!/^\d{8}$/.test(dateStr)) {
+        showError("Oops! Enter a date like ?date=DDMMYYYY.");
+        return null;
+    }
+    
+    let day = parseInt(dateStr.substring(0, 2));
+    let month = parseInt(dateStr.substring(2, 4)) - 1;
+    let year = parseInt(dateStr.substring(4, 8));
+    let date = new Date(year, month, day);
+    
+    if (date.getDate() !== day || date.getMonth() !== month || date.getFullYear() !== year) {
+        showError("Hmm... that date seems off! Try again: ?date=DDMMYYYY.");
+        return null;
+    }
+    return date;
+}
+
+function showError(message) {
+    document.getElementById("result").innerHTML = message;
+}
+
+function updateTimeDifference() {
+    let inputDate = getDateFromQuery();
+    if (!inputDate) return;
+    
+    function calculateDifference() {
+        let now = new Date();
+        let years = now.getFullYear() - inputDate.getFullYear();
+        let months = now.getMonth() - inputDate.getMonth();
+        let days = now.getDate() - inputDate.getDate();
+        if (days < 0) {
+            months--;
+            let lastMonthDays = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+            days += lastMonthDays;
+        }
+                if (months < 0) {
+                    years--;
+                    months += 12;
+                }
+
+                let hours = now.getHours();
+                let minutes = now.getMinutes();
+                let seconds = now.getSeconds();
+
+                // Calculate total days difference
+                let totalDaysDiff = Math.floor((now - inputDate) / (1000 * 60 * 60 * 24));
+                let weeks = Math.floor(totalDaysDiff / 7);
+                let extraDays = totalDaysDiff % 7;
+
+                document.getElementById("result").innerHTML = `
+                    ${years} Years<br>
+                <!--    (${weeks} Weeks and ${extraDays} Days)<br> -->
+                    ${months} Months<br>
+                    ${days} Days<br>
+                    ${hours} Hours<br>
+                    ${minutes} Minutes<br>
+                    ${seconds} Seconds
+                `;
+            }
+
+            calculateDifference();
+            setInterval(calculateDifference, 1000);
+        }
+
+        updateTimeDifference();
+
 setInterval(playTickSound, 1000);
 setInterval(updateDayProgress, 1000);
 setInterval(updateYearProgress, 60000);
