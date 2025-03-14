@@ -7,8 +7,11 @@ const motivationMessages = [
 ];
 
 function playTickSound() {
-    if (!isMuted) {
-        let tickSound = document.getElementById("tick-sound");
+    let tickSound = document.getElementById("tick-sound");
+    if (isMuted) {
+        tickSound.pause();
+        tickSound.currentTime = 0;
+    } else {
         tickSound.currentTime = 0;
         tickSound.play().catch(error => console.log("Sound playback error:", error));
     }
