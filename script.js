@@ -29,7 +29,9 @@ function updateDayProgress() {
     let percentagePassed = (secondsPassed / totalSecondsInDay) * 100;
     let percentageLeft = 100 - percentagePassed;
     document.getElementById("day-progress-bar").style.width = percentagePassed + "%";
-    document.getElementById("day-progress-text").innerText = `${Math.round(percentageLeft)}% of the day left`;
+ <!--   document.getElementById("day-progress-text").innerText = `${Math.round(percentageLeft)}% of the day left`; -->
+    document.getElementById("day-progress-text").innerText = `${percentageLeft.toFixed(1)}% of the day left`;
+
 }
 
 function updateYearProgress() {
@@ -38,7 +40,9 @@ function updateYearProgress() {
     let endOfYear = new Date(now.getFullYear(), 11, 31);
     let yearProgress = ((now - startOfYear) / (endOfYear - startOfYear)) * 100;
     document.getElementById("year-progress-bar").style.width = yearProgress + "%";
-    document.getElementById("year-progress-text").innerText = `${Math.round(100 - yearProgress)}% of the year left`;
+    <!-- document.getElementById("year-progress-text").innerText = `${Math.round(100 - yearProgress)}% of the year left`; -->
+    document.getElementById("year-progress-text").innerText = `${percentageLeft.toFixed(1)}% of the day left`;
+
 }
 
 function setBackground() {
