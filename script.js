@@ -54,7 +54,24 @@ function setBackground() {
 
 document.getElementById("theme-button").addEventListener("click", function () {
     document.body.classList.toggle("dark-mode");
+
+    // Save the preference in localStorage
+    if (document.body.classList.contains("dark-mode")) {
+        localStorage.setItem("theme", "dark");
+        this.innerText = "☀️ Light Mode";
+    } else {
+        localStorage.setItem("theme", "light");
+        this.innerText = "🌙 Dark Mode";
+    }
 });
+
+// Check and apply saved theme preference
+window.onload = function () {
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+        document.getElementById("theme-button").innerText = "☀️ Light Mode";
+    }
+};
 
 document.getElementById("set-goal").addEventListener("click", function () {
     let goal = document.getElementById("goal-input").value;
