@@ -22,7 +22,7 @@ body {
 }
 
 .progress-container {
-    width: 100%;
+    width: 80%;
     height: 10px;
     background-color: #ddd;
     border-radius: 5px;
