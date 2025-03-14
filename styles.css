@@ -23,11 +23,13 @@ body {
 
 .progress-container {
     width: 80%;
+    margin: 10px auto;
     height: 10px;
     background-color: #ddd;
     border-radius: 5px;
     overflow: hidden;
-    margin-top: 15px;
+    display: flex;
+    justify-content: center;
 }
 
 #day-progress-bar, #year-progress-bar {
@@ -42,8 +44,27 @@ body {
     font-size: 16px;
     font-weight: bold;
 }
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    width: 80vw;
+    margin: 10px auto;
+}
+    
+#mute-button, #theme-button {
+    flex: 1;
+    margin: 0 5px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+    border-radius: 5px;
+    background-color: #f44336;
+    color: white;
+}
 
-#mute-button, #theme-button, #set-goal {
+#set-goal {
     margin-top: 10px;
     padding: 8px 16px;
     font-size: 16px;
@@ -58,4 +79,18 @@ body {
     margin-top: 10px;
     padding: 8px;
     width: 80%;
+}
+
+.dark-mode {
+    background-color: #696969;
+    color: #cccccc;
+}
+
+.dark-mode .progress-container {
+    background-color: #666;
+}
+
+.dark-mode #day-progress-bar, 
+.dark-mode #year-progress-bar {
+    background-color: #00c853;
 }
