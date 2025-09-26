@@ -9,7 +9,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 80vh;
+            height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -101,7 +101,7 @@
         function getDateFromQuery() {
             const params = new URLSearchParams(window.location.search);
 const dateStr = params.get("date"); // Format: DDMMYYYY[HH|HHMM|HHMMSS]
-document.getElementById("log").innerText =dateStr
+//document.getElementById("log").innerText =dateStr
 
     // Check for valid formats: 8 digits (date only), 10 digits (date+HH), 12 digits (date+HHMM), 14 digits (date+HHMMSS)
     if (!/^\d{8}(\d{2}|\d{4}|\d{6})?$/.test(dateStr)) {
