@@ -53,13 +53,14 @@
         <div id="mode" class="time-diff"></div>
         
         <div id="date"></div>
+        <div id="zone"></div>
         <div id="result" class="time-diff">Enter a date in the URL: ?date=DDMMYYYY</div>
         <!-- Day Progress Bar -->
         <div class="progress-container">
             <div id="progress-bar"></div> 
         </div>
         <div id="progress-text">Loading...</div>
-        
+        <div id="log"></div>
     </div>
     
 
@@ -99,7 +100,8 @@
         
         function getDateFromQuery() {
             const params = new URLSearchParams(window.location.search);
-const dateStr = "260920251730"; // params.get("date"); // Format: DDMMYYYY[HH|HHMM|HHMMSS]
+const dateStr = params.get("date"); // Format: DDMMYYYY[HH|HHMM|HHMMSS]
+document.getElementById("log").innerText =dateStr
 
     // Check for valid formats: 8 digits (date only), 10 digits (date+HH), 12 digits (date+HHMM), 14 digits (date+HHMMSS)
     if (!/^\d{8}(\d{2}|\d{4}|\d{6})?$/.test(dateStr)) {
@@ -201,7 +203,15 @@ const dateStr = "260920251730"; // params.get("date"); // Format: DDMMYYYY[HH|HH
     let mode = isFuture ? "Countdown Mode" : "Age Mode";
     document.getElementById("mode").innerHTML = `${mode}`;
     let prefix = isFuture ? "Time until:" : "Time since:";
-    document.getElementById("date").innerHTML = `${prefix} ${inputDate}`;
+    
+   // Split at GMT
+    let fullDateString = inputDate.toString(); // "Fri Sep 26 2025 17:32:00 GMT+0530 (India Standard Time)"
+    let parts = fullDateString.split('GMT');
+    
+    let inputDateFull = parts[0].trim(); // "Fri Sep 26 2025 17:32:00"
+    let timeZone = parts[1] ? 'GMT' + parts[1] : 'GMT+0000'; // "GMT+0530 (India Standard Time)"
+    document.getElementById("date").innerHTML = `${prefix} ${inputDateFull}`;
+    document.getElementById("zone").innerHTML = `${timeZone}`;
     
     document.getElementById("result").innerHTML = `
         ${years} Years<br>
